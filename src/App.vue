@@ -1,10 +1,31 @@
 <template>
- <h1>Reaction Timer v2</h1>
- <button @click="start" :disabled="isPlaying">Play</button>
- <Block v-if="isPlaying"  :delay="delay" @end="endGame"/>
- 
- <p v-if="showResults">Your Reaction time: {{ score }} ms</p>
- <Result v-if="showResults" :score="score"/>
+  <h1>Reaction Timer v2</h1>
+  <button @click="start" :disabled="isPlaying">Play</button>
+  <Block v-if="isPlaying"  :delay="delay" @end="endGame"/>
+  
+  <p v-if="showResults">Your Reaction time: {{ score }} ms</p>
+  <Result v-if="showResults" :score="score"/>
+  <div style="display:flex; justify-content:center; margin-top:10px;" v-if="isPlaying==false">
+    <table>
+      <thead>
+        <tr>
+          <td>#</td>
+          <td>reaction time (ms)</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in reactionTimes" :key="index">
+          <td>{{ index+1 }}</td>
+          <td>{{ item }} ms</td>
+        </tr>
+        <tr v-if="reactionTimes.length==0">
+          <td colspan="2">
+            Hic skor girilmedi
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -12,13 +33,14 @@ import Block from './components/Block.vue'
 import Result from './components/Result.vue'
 
 export default {
-  components: { Block, Result  },
+  components: { Block, Result },
   data() {
     return {
       isPlaying:false,
       delay:null,
       score:null,
-      showResults:false
+      showResults:false,
+      reactionTimes: []
     }
   },
   methods: {
@@ -30,6 +52,7 @@ export default {
     endGame(reactionTime){
       this.showResults=true
       this.score=reactionTime
+      this.reactionTimes.push(reactionTime)
       this.isPlaying=false
     }
   },
