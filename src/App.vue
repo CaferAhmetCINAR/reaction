@@ -1,5 +1,5 @@
 <template>
-  <h1>Reaction Timer v2</h1>
+  <h1>Reaction Timer v2dfsgdf</h1>
   <button @click="start" :disabled="isPlaying">Play</button>
   <Block v-if="isPlaying"  :delay="delay" @end="endGame"/>
   
